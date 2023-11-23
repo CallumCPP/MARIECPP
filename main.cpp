@@ -24,7 +24,7 @@ enum INSTRUCTION {
     STOREI = 0xE
 };
 
-ushort memory[256];
+ushort memory[32767];
 ushort programCounter = 0;
 ushort accumulator = 0;
 
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
     std::ifstream executableFile(argv[1]);
     if (executableFile.fail()) {
         std::cout << "Invalid file path. Try again.\n";
-        return 0;
+        return 1;
     }
 
     executableFile.seekg(0, std::ios::end);
@@ -167,8 +167,8 @@ int main(int argc, char* argv[]) {
     executableFile.seekg(0, std::ios::beg);
 
     if (executableSize > sizeof(memory)) {
-        std::cout << "Executable too big. 4kB maximum.\n";
-        return 0;
+        std::cout << "Executable too big. 64kB maximum.\n";
+        return 1;
     }
 
     executableFile.read((char*)memory, executableSize);
